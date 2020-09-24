@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".splashscreen">
+
+    <ImageView
+        android:id="@+id/imageviewID"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/message_logo"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageviewID"
+        android:text="Let's Chat"
+        android:gravity="center"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:textSize="25sp"/>
+
+</RelativeLayout>
