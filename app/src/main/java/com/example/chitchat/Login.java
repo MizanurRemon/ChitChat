@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-    TextView registerClick;
+    TextView registerClick, resetpassword;;
     EditText loginemail, loginpassword;
     Button loginButton;
 
@@ -43,6 +43,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }catch (NullPointerException e){}
 
         registerClick = (TextView) findViewById(R.id.registerloginID);
+        resetpassword = (TextView) findViewById(R.id.forgetpasswordID);
         loginemail = (EditText) findViewById(R.id.loginemailID);
         loginpassword = (EditText) findViewById(R.id.loginpasswordID);
         loginButton = (Button) findViewById(R.id.loginbuttonID);
@@ -53,6 +54,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         registerClick.setOnClickListener(this);
         loginButton.setOnClickListener(this);
+        resetpassword.setOnClickListener(this);
 
     }
 
@@ -61,6 +63,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         if (view.getId()==R.id.registerloginID){
             finish();
             startActivity(new Intent(Login.this, Registration.class));
+        }
+        else if(view.getId()==R.id.forgetpasswordID){
+            finish();
+            startActivity(new Intent(Login.this, resetpassword1.class));
         }
         else if(view.getId()==R.id.loginbuttonID){
             String email = loginemail.getText().toString().trim();

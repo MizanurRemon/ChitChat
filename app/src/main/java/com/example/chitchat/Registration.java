@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +35,7 @@ public class Registration extends AppCompatActivity {
     DatabaseReference registerData;
     ProgressDialog progressDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,8 @@ public class Registration extends AppCompatActivity {
 
         try {
             this.getSupportActionBar().hide();
-        }catch (NullPointerException e){}
+        } catch (NullPointerException e) {
+        }
 
         submitButton = (Button) findViewById(R.id.submitbuttonID);
         first_name = (EditText) findViewById(R.id.fnameID);
@@ -113,37 +116,40 @@ public class Registration extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                        String userID = mAuth.getCurrentUser().getUid();
-                        DatabaseReference newDatarefer = registerData.child(userID);
-                        newDatarefer.child("name").setValue(name);
-                        newDatarefer.child("email").setValue(email);
-                        newDatarefer.child("contact").setValue(phoneNumber);
+                if (task.isSuccessful()) {
 
-                        progressDialog.dismiss();
+                    String userID = mAuth.getCurrentUser().getUid();
+                    DatabaseReference newDatarefer = registerData.child(userID);
+                    newDatarefer.child("name").setValue(name);
+                    newDatarefer.child("email").setValue(email);
+                    newDatarefer.child("contact").setValue(phoneNumber);
 
-                        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Toast toast = Toast.makeText(Registration.this, "Verify the link that is sent to your email", Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
+                    mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                progressDialog.dismiss();
 
-                                    Intent intent = new Intent(Registration.this, Login.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
-                                }else{
-                                    Toast toast = Toast.makeText(Registration.this, "Erroe- Try again", Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
-                                }
+                                Toast toast = Toast.makeText(Registration.this, "Verify your account first", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
 
+
+                            } else {
+                                progressDialog.dismiss();
+
+                                Toast toast = Toast.makeText(Registration.this, "Invalid Email", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
                             }
-                        });
+
+                        }
+                    });
 
 
-                }else {
+                } else {
+                    progressDialog.dismiss();
+
                     Toast toast = Toast.makeText(Registration.this, "Error- Not Registered", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
