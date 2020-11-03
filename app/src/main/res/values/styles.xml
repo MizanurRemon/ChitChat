@@ -6,8 +6,13 @@
         <item name="colorPrimaryDark">#2196F3</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name= "Menustyle" parent="Theme.AppCompat.Light">
-        <item name = "android:background">@android:color/background_light</item>
+
+    <style name="Menustyle" parent="Theme.AppCompat.Light">
+        <item name="android:background">@android:color/background_light</item>
+    </style>
+
+    <style name="progressBarBlue" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">#4C4E4E</item>
     </style>
 
 </resources>
