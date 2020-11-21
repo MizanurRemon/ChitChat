@@ -2,7 +2,8 @@
 
 **Description**
 
-A chatting application.
+A chatting application
+
 **Tools**
 
 - Relative Layout
