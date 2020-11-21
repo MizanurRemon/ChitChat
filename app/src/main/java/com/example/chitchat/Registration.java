@@ -1,30 +1,25 @@
 package com.example.chitchat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class Registration extends AppCompatActivity {
     //AutoCompleteTextView gender;
@@ -32,8 +27,10 @@ public class Registration extends AppCompatActivity {
     Button submitButton;
     ImageButton backButton;
     FirebaseAuth mAuth;
-    DatabaseReference registerData;
+    DatabaseReference registerData, newDatarefer;
     ProgressDialog progressDialog;
+
+    String userID;
 
 
     @Override
@@ -118,18 +115,21 @@ public class Registration extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-                    String userID = mAuth.getCurrentUser().getUid();
-                    DatabaseReference newDatarefer = registerData.child(userID);
-                    newDatarefer.child("name").setValue(name);
-                    newDatarefer.child("email").setValue(email);
-                    newDatarefer.child("contact").setValue(phoneNumber);
+                    userID = mAuth.getCurrentUser().getUid();
+                    newDatarefer = registerData.child(userID);
+
 
                     mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                progressDialog.dismiss();
 
+                                newDatarefer.child("id").setValue(userID);
+                                newDatarefer.child("name").setValue(name);
+                                newDatarefer.child("email").setValue(email);
+                                newDatarefer.child("contact").setValue(phoneNumber);
+
+                                progressDialog.dismiss();
                                 Toast toast = Toast.makeText(Registration.this, "Verify your account first", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER, 0, 0);
                                 toast.show();

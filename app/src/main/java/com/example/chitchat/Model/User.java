@@ -1,17 +1,19 @@
 package com.example.chitchat.Model;
 
 public class User {
-    private String id;
-    private String username;
-    private String imageURL;
 
-    public User(String id, String username, String imageURL) {
-        this.id = id;
-        this.username = username;
-        this.imageURL = imageURL;
-    }
+    private String name;
+    private String imageURL;
+    private String id;
 
     public User() {
+
+    }
+
+    public User(String name, String imageURL, String id) {
+        this.name = name;
+        this.imageURL = imageURL;
+        this.id = id;
     }
 
     public String getId() {
@@ -22,12 +24,13 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImageURL() {
