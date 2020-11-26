@@ -2,7 +2,7 @@
 
 **Description**
 
-A chatting application(ongoing)
+A chatting application
 
 **Tools**
 
@@ -15,4 +15,7 @@ A chatting application(ongoing)
 - FirebaseAuth
 - Email verification
 - Password Recover
+- Fragment
+- Adapter
+- POJO Class
 
