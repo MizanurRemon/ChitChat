@@ -1,9 +1,11 @@
 package com.example.chitchat.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +31,7 @@ public class UsersFragment extends Fragment {
     RecyclerView recyclerView;
     UserAdapter userAdapter;
     List<User> mUsers;
+    String myID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,11 +44,35 @@ public class UsersFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         mUsers = new ArrayList<>();
-        readUsers();
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("User Profiles").child(firebaseUser.getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                //user_name.setText(user.getName());
+                myID = user.getId();
+                //Log.d("myIDxx", myID + " " + user.getName());
+                readUsers(myID);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
         return view;
     }
 
-    private void readUsers() {
+    private void readUsers(final String myID) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("User Profiles");
 
@@ -60,7 +87,9 @@ public class UsersFragment extends Fragment {
 
                     //Log.d("userID", user.getId());
                     //Log.d("UID", firebaseUser.getUid());
-                    if (!user.getId().equals(firebaseUser.getUid())) {
+                    if (!user.getId().equals(myID)) {
+                        //Log.d("myIDxx", user.getId() + " " + myID);
+
                         mUsers.add(user);
                     }
                     //mUsers.add(user);

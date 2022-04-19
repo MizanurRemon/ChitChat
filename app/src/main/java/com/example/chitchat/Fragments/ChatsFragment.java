@@ -48,21 +48,27 @@ public class ChatsFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userList = new ArrayList<>();
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Chats");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
+                userList = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
                     if (chat.getSender().equals(firebaseUser.getUid())) {
-                        userList.add(chat.getReciever());
+                        //userList.add(chat.getReciever());
+
+                        if (userList.contains(chat.getReciever())) {
+
+                        } else {
+                            userList.add(chat.getReciever());
+                        }
                     }
-                    if (chat.getReciever().equals(firebaseUser.getUid())) {
+                    /*if (chat.getReciever().equals(firebaseUser.getUid())) {
                         userList.add(chat.getSender());
-                    }
+                    }*/
                 }
                 readChats();
             }
@@ -90,7 +96,13 @@ public class ChatsFragment extends Fragment {
                             if (mUsers.size() != 0) {
                                 for (User user1 : new ArrayList<>(mUsers)) {
                                     if (!user.getId().equals(user1.getId())) {
-                                        mUsers.add(user);
+                                        //mUsers.add(user);
+
+                                        if (mUsers.contains(user)) {
+
+                                        } else {
+                                            mUsers.add(user);
+                                        }
                                     }
                                 }
                             } else {
